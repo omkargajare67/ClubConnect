@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --secondary: #0ea5e9;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #0f172a;
+    --card-bg: #ffffff;
+    --bg-main: #f8fafc;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Navbar */
+.navbar-custom {
+    background: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+}
+
+.brand-text {
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+}
+
+/* Cards & Components */
+.event-card {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: #ffffff;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+}
+
+.event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+.badge-workshop { background-color: #3b82f6; color: white; }
+.badge-hackathon { background-color: #8b5cf6; color: white; }
+.badge-seminar { background-color: #10b981; color: white; }
+.badge-cultural { background-color: #ec4899; color: white; }
+
+.badge-member { background-color: #10b981; color: white; }
+.badge-guest { background-color: #64748b; color: white; }
+
+.fee-display {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.sim-notice {
+    font-size: 0.8rem;
+    color: #b45309;
+    background-color: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 6px;
+    padding: 6px 10px;
+}
+
+/* Receipt Styling */
+.receipt-box {
+    border: 2px dashed #cbd5e1;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+}
+
+.receipt-header {
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+/* Certificate Display */
+.cert-pre {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 16px;
+    border-radius: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+}
+
+/* QR Container */
+.qr-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    width: fit-content;
+    margin: 0 auto;
+}
+
+/* Print Styles */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #printableReceipt, #printableReceipt * {
+        visibility: visible;
+    }
+    #printableReceipt {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: none;
+        padding: 0;
+    }
+    .no-print {
+        display: none !important;
+    }
+}

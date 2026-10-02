@@ -14,5 +14,13 @@
         "eventId": 5,
         "paymentId": "",
         "studentId": 7
+    },
+    {
+        "attended": true,
+        "enrollmentDate": "2026-10-02 11:01:34",
+        "enrollmentId": 3,
+        "eventId": 8,
+        "paymentId": "TXN-5003",
+        "studentId": 4
     }
 ]

@@ -9,5 +9,16 @@
         "studentId": 4,
         "timestamp": "2026-10-02 10:58:44",
         "transactionId": "TXN-5002"
+    },
+    {
+        "amountPaid": 200.0,
+        "enrollmentId": 3,
+        "eventId": 8,
+        "paymentMethod": "UPI",
+        "receiptCode": "CC-RCPT-1002",
+        "receiptNo": 1002,
+        "studentId": 4,
+        "timestamp": "2026-10-02 11:01:35",
+        "transactionId": "TXN-5003"
     }
 ]

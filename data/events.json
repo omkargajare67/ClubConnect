@@ -89,5 +89,36 @@
         "trainer": "Er. Devops",
         "type": "Workshop",
         "venue": "Server Room B"
+    },
+    {
+        "clubName": "Coding Club",
+        "date": "2026-11-18",
+        "description": "Build agentic AI tools for college campus",
+        "eventId": 7,
+        "fee": 400.0,
+        "name": "Smart Campus AI Hackathon",
+        "prize": "INR 30,000",
+        "seatsLeft": 40,
+        "status": "APPROVED",
+        "teamSize": 3,
+        "time": "09:00",
+        "totalSeats": 40,
+        "type": "Hackathon",
+        "venue": "Innovation Hub"
+    },
+    {
+        "clubName": "Coding Club",
+        "date": "2026-11-20",
+        "description": "Deep dive into RAII, smart pointers and templates",
+        "eventId": 8,
+        "fee": 250.0,
+        "name": "C++17 Modern Paradigms Workshop",
+        "seatsLeft": 29,
+        "status": "APPROVED",
+        "time": "14:00",
+        "totalSeats": 30,
+        "trainer": "Prof. Bjarne S.",
+        "type": "Workshop",
+        "venue": "CSE Seminar Hall"
     }
 ]
