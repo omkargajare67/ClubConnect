@@ -67,12 +67,27 @@
         "eventId": 5,
         "fee": 250.0,
         "name": "Drone Design & Avionics Sprint",
-        "seatsLeft": 1,
+        "seatsLeft": 0,
         "status": "APPROVED",
         "time": "11:00",
         "totalSeats": 10,
         "trainer": "Er. Ramesh Verma",
         "type": "Workshop",
         "venue": "Aero Lab 102"
+    },
+    {
+        "clubName": "Coding Club",
+        "date": "2026-11-25",
+        "description": "Cluster setup and helm charts",
+        "eventId": 6,
+        "fee": 200.0,
+        "name": "Cloud Native Kubernetes Sprint",
+        "seatsLeft": 19,
+        "status": "APPROVED",
+        "time": "14:00",
+        "totalSeats": 20,
+        "trainer": "Er. Devops",
+        "type": "Workshop",
+        "venue": "Server Room B"
     }
 ]

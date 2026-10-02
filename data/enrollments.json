@@ -1,1 +1,18 @@
-[]
+[
+    {
+        "attended": true,
+        "enrollmentDate": "2026-10-02 10:58:41",
+        "enrollmentId": 1,
+        "eventId": 6,
+        "paymentId": "TXN-5002",
+        "studentId": 4
+    },
+    {
+        "attended": false,
+        "enrollmentDate": "2026-10-02 10:58:43",
+        "enrollmentId": 2,
+        "eventId": 5,
+        "paymentId": "",
+        "studentId": 7
+    }
+]
