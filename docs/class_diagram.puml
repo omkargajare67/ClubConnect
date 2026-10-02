@@ -1,0 +1,323 @@
+@startuml ClubConnect_Class_Diagram
+skinparam classAttributeIconSize 0
+skinparam monochrome false
+skinparam roundcorner 10
+skinparam shadowing true
+
+package "Users Hierarchy" {
+    abstract class User {
+        # int id
+        # string name
+        # string email
+        - string passwordHash
+        + ~User()
+        + int getId() const
+        + string getName() const
+        + string getEmail() const
+        + bool checkPassword(string plainPassword) const
+        + {static} string hashPassword(string plainPassword)
+        + {abstract} string getRole() const
+        + {abstract} void showMenu() const
+        + virtual json toJson() const
+    }
+
+    class Student {
+        # string rollNo
+        # string department
+        # string membershipType
+        + virtual double calculateFee(double baseFee) const
+        + string getRole() const override
+        + void showMenu() const override
+        + json toJson() const override
+    }
+
+    class MemberStudent {
+        + double calculateFee(double baseFee) const override
+    }
+
+    class GuestStudent {
+        + double calculateFee(double baseFee) const override
+    }
+
+    class ClubAdmin {
+        - string clubName
+        + string getClubName() const
+        + string getRole() const override
+        + void showMenu() const override
+        + json toJson() const override
+    }
+
+    class SuperAdmin {
+        + string getRole() const override
+        + void showMenu() const override
+        + json toJson() const override
+    }
+
+    User <|-- Student
+    Student <|-- MemberStudent
+    Student <|-- GuestStudent
+    User <|-- ClubAdmin
+    User <|-- SuperAdmin
+}
+
+package "Events Hierarchy" {
+    abstract class Event {
+        + {static} int nextEventId
+        # int eventId
+        # string name
+        # string description
+        # string clubName
+        # string date
+        # string time
+        # string venue
+        # double fee
+        # string status
+        # int totalSeats
+        - int seatsLeft
+        + ~Event()
+        + int getEventId() const
+        + string getName() const
+        + double getFee() const
+        + int getSeatsLeft() const
+        + void setStatus(string newStatus)
+        + void enroll()
+        + {abstract} json toJson() const
+        + {abstract} void displayDetails() const
+        + {abstract} string generateCertificate(string studentName) const
+        + bool operator<(const Event& other) const
+        + friend ostream& operator<<(ostream& os, const Event& event)
+    }
+
+    class Workshop {
+        - string trainer
+        + string getTrainer() const
+        + json toJson() const override
+        + void displayDetails() const override
+        + string generateCertificate(string studentName) const override
+        + {static} shared_ptr<Workshop> fromJson(const json& j)
+    }
+
+    class Hackathon {
+        - int teamSize
+        - string prize
+        + int getTeamSize() const
+        + string getPrize() const
+        + json toJson() const override
+        + void displayDetails() const override
+        + string generateCertificate(string studentName) const override
+        + {static} shared_ptr<Hackathon> fromJson(const json& j)
+    }
+
+    class Seminar {
+        - string speaker
+        + string getSpeaker() const
+        + json toJson() const override
+        + void displayDetails() const override
+        + string generateCertificate(string studentName) const override
+        + {static} shared_ptr<Seminar> fromJson(const json& j)
+    }
+
+    class CulturalEvent {
+        - string category
+        + string getCategory() const
+        + json toJson() const override
+        + void displayDetails() const override
+        + string generateCertificate(string studentName) const override
+        + {static} shared_ptr<CulturalEvent> fromJson(const json& j)
+    }
+
+    Event <|-- Workshop
+    Event <|-- Hackathon
+    Event <|-- Seminar
+    Event <|-- CulturalEvent
+}
+
+package "Payments Hierarchy" {
+    abstract class Payment {
+        - double amount
+        - string transactionId
+        - string date
+        - string status
+        # void updateStatus(string newStatus)
+        + ~Payment()
+        + double getAmount() const
+        + string getTransactionId() const
+        + string getStatus() const
+        + {abstract} bool processPayment()
+        + {abstract} string getPaymentInstruction() const
+        + {abstract} string getPaymentMethod() const
+        + virtual json toJson() const
+    }
+
+    class UPIPayment {
+        - string merchantUpiId
+        - string studentUpiId
+        - string eventName
+        + bool processPayment() override
+        + string getPaymentInstruction() const override
+        + string getPaymentMethod() const override
+    }
+
+    class CardPayment {
+        - string last4Digits
+        - string cardHolderName
+        + bool processPayment() override
+        + string getPaymentInstruction() const override
+        + string getPaymentMethod() const override
+    }
+
+    class CashPayment {
+        - string counterName
+        + bool processPayment() override
+        + string getPaymentInstruction() const override
+        + string getPaymentMethod() const override
+    }
+
+    Payment <|-- UPIPayment
+    Payment <|-- CardPayment
+    Payment <|-- CashPayment
+}
+
+package "Domain Records" {
+    class Club {
+        - int clubId
+        - string name
+        - string description
+        - string leadAdminEmail
+        + json toJson() const
+        + {static} Club fromJson(const json& j)
+    }
+
+    class Enrollment {
+        - int enrollmentId
+        - int studentId
+        - int eventId
+        - string paymentId
+        - bool attended
+        - string enrollmentDate
+        + void markAttended(bool status)
+        + json toJson() const
+        + {static} Enrollment fromJson(const json& j)
+    }
+
+    class Receipt {
+        + {static} int nextReceiptNo
+        - int receiptNo
+        - string receiptCode
+        - int enrollmentId
+        - int studentId
+        - int eventId
+        - double amountPaid
+        - string paymentMethod
+        - string transactionId
+        - string timestamp
+        + friend ostream& operator<<(ostream& os, const Receipt& receipt)
+        + friend void printReceiptWithPayment(ostream& os, const Receipt& receipt, const Payment& payment)
+        + json toJson() const
+    }
+
+    class Certificate {
+        - int certificateId
+        - int enrollmentId
+        - string studentName
+        - string eventName
+        - string issueDate
+        - string content
+        + json toJson() const
+    }
+
+    class Team {
+        - string teamName
+        - vector<int> studentIds
+        - vector<string> memberNames
+        + Team operator+(const Student& student) const
+        + friend Team operator+(const Student& s1, const Student& s2)
+    }
+}
+
+package "Core Infrastructure & Patterns" {
+    class "Repository<T>" as Repository {
+        - vector<shared_ptr<T>> items
+        - mutable mutex mtx
+        + void add(shared_ptr<T> item)
+        + vector<shared_ptr<T>> getAll() const
+        + shared_ptr<T> find(Predicate pred) const
+        + vector<shared_ptr<T>> filter(Predicate pred) const
+        + bool remove(Predicate pred)
+        + void clear()
+    }
+
+    class FileManager <<Singleton>> {
+        - {static} FileManager* instance
+        - {static} mutex instanceMutex
+        - mutex ioMutex
+        - FileManager()
+        + {static} FileManager& getInstance()
+        + bool save(string filename, const json& data)
+        + json load(string filename)
+    }
+
+    class EventFactory <<Factory>> {
+        + {static} shared_ptr<Event> createEvent(const json& j)
+    }
+
+    class EventSearch {
+        + {static} vector<shared_ptr<Event>> searchEvent(const vector<shared_ptr<Event>>& events, string name)
+        + {static} vector<shared_ptr<Event>> searchEvent(const vector<shared_ptr<Event>>& events, const Club& club)
+        + {static} vector<shared_ptr<Event>> searchEvent(const vector<shared_ptr<Event>>& events, double maxFee)
+    }
+}
+
+package "Application Services" {
+    class AuthService {
+        - shared_ptr<Repository<User>> userRepo
+        - map<string, int> activeSessions
+        + string login(string email, string password)
+        + shared_ptr<User> validateToken(string token) const
+        + shared_ptr<User> registerStudent(const json& data)
+    }
+
+    class EnrollmentService {
+        - shared_ptr<Repository<Event>> eventRepo
+        - shared_ptr<Repository<User>> userRepo
+        - shared_ptr<Repository<Enrollment>> enrollmentRepo
+        - mutex enrollmentMutex
+        + shared_ptr<Enrollment> enroll(int studentId, int eventId)
+    }
+
+    class PaymentService {
+        - shared_ptr<Repository<Payment>> paymentRepo
+        - shared_ptr<Repository<Receipt>> receiptRepo
+        + shared_ptr<Payment> initiatePayment(int enrollmentId, string mode, const json& details)
+        + shared_ptr<Receipt> confirmPayment(string paymentId)
+    }
+
+    class EventService {
+        - shared_ptr<Repository<Event>> eventRepo
+        + vector<shared_ptr<Event>> getApprovedEvents(...)
+        + shared_ptr<Event> createEvent(const json& data, string club)
+        + bool setEventStatus(int eventId, string status)
+        + int markAttendance(int eventId, const vector<int>& studentIds)
+        + string generateCertificate(int enrollmentId) const
+        + json getReports() const
+    }
+}
+
+class Routes {
+    + {static} void setup(Server& svr, AuthService& auth, EventService& event, EnrollmentService& enroll, PaymentService& pay, DataManager& data)
+}
+
+Routes --> AuthService
+Routes --> EventService
+Routes --> EnrollmentService
+Routes --> PaymentService
+
+EnrollmentService ..> Repository
+PaymentService ..> Repository
+EventService ..> Repository
+
+PaymentService ..> Receipt
+EventService ..> Certificate
+Receipt ..> Payment : friend access
+
+@enduml
