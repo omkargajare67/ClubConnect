@@ -1,0 +1,14 @@
+[
+    {
+        "clubId": 1,
+        "name": "Coding Club",
+        "description": "Premier technical coding, algorithmic problem solving and development society.",
+        "leadAdminEmail": "admin.coding@campus.edu"
+    },
+    {
+        "clubId": 2,
+        "name": "Robotics Society",
+        "description": "Interdisciplinary robotics, automation, drones, and embedded intelligence club.",
+        "leadAdminEmail": "admin.robotics@campus.edu"
+    }
+]

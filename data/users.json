@@ -1,0 +1,65 @@
+[
+    {
+        "id": 1,
+        "name": "Dr. Arvind Sharma",
+        "email": "superadmin@campus.edu",
+        "password": "superpassword",
+        "role": "SuperAdmin"
+    },
+    {
+        "id": 2,
+        "name": "Prof. Rajesh Nair",
+        "email": "admin.coding@campus.edu",
+        "password": "codingpass",
+        "role": "ClubAdmin",
+        "clubName": "Coding Club"
+    },
+    {
+        "id": 3,
+        "name": "Prof. Sneha Kulkarni",
+        "email": "admin.robotics@campus.edu",
+        "password": "robopass",
+        "role": "ClubAdmin",
+        "clubName": "Robotics Society"
+    },
+    {
+        "id": 4,
+        "name": "Aarav Sharma",
+        "email": "aarav@campus.edu",
+        "password": "pass123",
+        "role": "Student",
+        "membership": "member",
+        "rollNo": "CS23B001",
+        "department": "Computer Science"
+    },
+    {
+        "id": 5,
+        "name": "Neha Gupta",
+        "email": "neha@campus.edu",
+        "password": "pass123",
+        "role": "Student",
+        "membership": "member",
+        "rollNo": "EC23B015",
+        "department": "Electronics"
+    },
+    {
+        "id": 6,
+        "name": "Diya Patel",
+        "email": "diya@other.edu",
+        "password": "pass123",
+        "role": "Student",
+        "membership": "guest",
+        "rollNo": "EXT2026A",
+        "department": "Information Technology"
+    },
+    {
+        "id": 7,
+        "name": "Kabir Mehta",
+        "email": "kabir@other.edu",
+        "password": "pass123",
+        "role": "Student",
+        "membership": "guest",
+        "rollNo": "EXT2026B",
+        "department": "Mechanical"
+    }
+]
