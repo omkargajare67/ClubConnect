@@ -10,7 +10,7 @@ private:
 
 public:
     ClubAdmin(int id, const std::string& name, const std::string& email, const std::string& rawPassword,
-              const std::string& clubName);
+              const std::string& clubName, bool isHashed = false);
 
     virtual ~ClubAdmin() override = default;
 

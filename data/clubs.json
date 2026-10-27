@@ -1,14 +1,56 @@
 [
     {
         "clubId": 1,
-        "name": "Coding Club",
-        "description": "Premier technical coding, algorithmic problem solving and development society.",
-        "leadAdminEmail": "admin.coding@campus.edu"
+        "description": "Premier technical coding, algorithmic problem solving and software development society.",
+        "leadAdminEmail": "admin.coding@campus.edu",
+        "name": "Coding Club"
     },
     {
         "clubId": 2,
-        "name": "Robotics Society",
         "description": "Interdisciplinary robotics, automation, drones, and embedded intelligence club.",
-        "leadAdminEmail": "admin.robotics@campus.edu"
+        "leadAdminEmail": "admin.robotics@campus.edu",
+        "name": "Robotics Society"
+    },
+    {
+        "clubId": 3,
+        "description": "Applied artificial intelligence, neural networks, computer vision, and generative AI research.",
+        "leadAdminEmail": "admin.ai@campus.edu",
+        "name": "AI & Machine Learning Club"
+    },
+    {
+        "clubId": 4,
+        "description": "Campus theatre, classical & western dance, acoustic music, and visual arts council.",
+        "leadAdminEmail": "admin.cultural@campus.edu",
+        "name": "Cultural & Fine Arts Society"
+    },
+    {
+        "clubId": 5,
+        "description": "Inter-college championships, athletics, football, basketball, and fitness wellness initiatives.",
+        "leadAdminEmail": "admin.sports@campus.edu",
+        "name": "Sports & Athletics Council"
+    },
+    {
+        "clubId": 6,
+        "description": "UI/UX product design, graphic visual communications, cinematography, and campus media journalism.",
+        "leadAdminEmail": "admin.design@campus.edu",
+        "name": "Design & Media Guild"
+    },
+    {
+        "clubId": 7,
+        "description": "Network defense, vulnerability assessments, capture-the-flag competitions, and cryptography.",
+        "leadAdminEmail": "admin.cyber@campus.edu",
+        "name": "Cyber Security & Ethical Hacking"
+    },
+    {
+        "clubId": 8,
+        "description": "Rocket propulsion, telescope stargazing observation, drone telemetry, and satellite avionics.",
+        "leadAdminEmail": "admin.aero@campus.edu",
+        "name": "Aerospace & Astronomy Club"
+    },
+    {
+        "clubId": 9,
+        "description": "Dance community of students.",
+        "leadAdminEmail": "admin.dance@campus.edu",
+        "name": "Zypher"
     }
 ]

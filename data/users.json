@@ -1,65 +1,209 @@
 [
     {
-        "id": 1,
-        "name": "Dr. Arvind Sharma",
         "email": "superadmin@campus.edu",
-        "password": "superpassword",
+        "id": 1,
+        "isHashed": true,
+        "name": "Dr. Arvind Sharma",
+        "password": "12abaaee4e827134",
         "role": "SuperAdmin"
     },
     {
-        "id": 2,
-        "name": "Prof. Rajesh Nair",
+        "clubName": "Coding Club",
         "email": "admin.coding@campus.edu",
-        "password": "codingpass",
-        "role": "ClubAdmin",
-        "clubName": "Coding Club"
+        "id": 2,
+        "isHashed": true,
+        "name": "Prof. Rajesh Nair",
+        "password": "eac1bf7c3a9ccb97",
+        "role": "ClubAdmin"
     },
     {
-        "id": 3,
-        "name": "Prof. Sneha Kulkarni",
+        "clubName": "Robotics Society",
         "email": "admin.robotics@campus.edu",
-        "password": "robopass",
-        "role": "ClubAdmin",
-        "clubName": "Robotics Society"
+        "id": 3,
+        "isHashed": true,
+        "name": "Prof. Sneha Kulkarni",
+        "password": "fdc6044b9562b9e4",
+        "role": "ClubAdmin"
     },
     {
-        "id": 4,
-        "name": "Aarav Sharma",
+        "department": "Computer Science",
         "email": "aarav@campus.edu",
-        "password": "pass123",
-        "role": "Student",
+        "id": 4,
+        "isHashed": true,
         "membership": "member",
-        "rollNo": "CS23B001",
-        "department": "Computer Science"
+        "name": "Aarav Sharma",
+        "password": "e155ef7a0361fff5",
+        "role": "Student",
+        "rollNo": "CS23B001"
     },
     {
-        "id": 5,
-        "name": "Neha Gupta",
+        "department": "Electronics",
         "email": "neha@campus.edu",
-        "password": "pass123",
-        "role": "Student",
+        "id": 5,
+        "isHashed": true,
         "membership": "member",
-        "rollNo": "EC23B015",
-        "department": "Electronics"
+        "name": "Neha Gupta",
+        "password": "e155ef7a0361fff5",
+        "role": "Student",
+        "rollNo": "EC23B015"
     },
     {
-        "id": 6,
-        "name": "Diya Patel",
+        "department": "Information Technology",
         "email": "diya@other.edu",
-        "password": "pass123",
-        "role": "Student",
+        "id": 6,
+        "isHashed": true,
         "membership": "guest",
-        "rollNo": "EXT2026A",
-        "department": "Information Technology"
+        "name": "Diya Patel",
+        "password": "e155ef7a0361fff5",
+        "role": "Student",
+        "rollNo": "EXT2026A"
     },
     {
-        "id": 7,
-        "name": "Kabir Mehta",
+        "department": "Mechanical",
         "email": "kabir@other.edu",
-        "password": "pass123",
-        "role": "Student",
+        "id": 7,
+        "isHashed": true,
         "membership": "guest",
-        "rollNo": "EXT2026B",
-        "department": "Mechanical"
+        "name": "Kabir Mehta",
+        "password": "e155ef7a0361fff5",
+        "role": "Student",
+        "rollNo": "EXT2026B"
+    },
+    {
+        "department": "CS",
+        "email": "shivani@gmail.com",
+        "id": 8,
+        "isHashed": true,
+        "membership": "guest",
+        "name": "Shivani Bankar",
+        "password": "fa546989d0812b0d",
+        "role": "Student",
+        "rollNo": "CSB39"
+    },
+    {
+        "department": "Computer Science",
+        "email": "priya.nair@campus.edu",
+        "id": 9,
+        "isHashed": true,
+        "membership": "member",
+        "name": "Priya Nair",
+        "password": "ebb01f2b2082798c",
+        "role": "Student",
+        "rollNo": "CS23B101"
+    },
+    {
+        "department": "Computer Science",
+        "email": "aditya.verma@campus.edu",
+        "id": 10,
+        "isHashed": true,
+        "membership": "member",
+        "name": "Aditya Verma",
+        "password": "4d41537fd0609d2d",
+        "role": "Student",
+        "rollNo": "CS23B501"
+    },
+    {
+        "clubName": "AI & Machine Learning Club",
+        "email": "admin.ai@campus.edu",
+        "id": 11,
+        "isHashed": true,
+        "name": "Prof. Vikram Sarabhai",
+        "password": "9409e571b7d80b46",
+        "role": "ClubAdmin"
+    },
+    {
+        "clubName": "Cultural & Fine Arts Society",
+        "email": "admin.cultural@campus.edu",
+        "id": 17,
+        "isHashed": true,
+        "name": "Prof. Meera Sen",
+        "password": "ce3fb8101e2dfc89",
+        "role": "ClubAdmin"
+    },
+    {
+        "clubName": "Sports & Athletics Council",
+        "email": "admin.sports@campus.edu",
+        "id": 18,
+        "isHashed": true,
+        "name": "Coach Sandeep Patil",
+        "password": "8362c1bccfdee788",
+        "role": "ClubAdmin"
+    },
+    {
+        "clubName": "Design & Media Guild",
+        "email": "admin.design@campus.edu",
+        "id": 19,
+        "isHashed": true,
+        "name": "Prof. Tanya Verma",
+        "password": "9697df4e89bb0bc3",
+        "role": "ClubAdmin"
+    },
+    {
+        "clubName": "Cyber Security & Ethical Hacking",
+        "email": "admin.cyber@campus.edu",
+        "id": 20,
+        "isHashed": true,
+        "name": "Prof. Arjun Dave",
+        "password": "6f649b4516bfacc7",
+        "role": "ClubAdmin"
+    },
+    {
+        "clubName": "Aerospace & Astronomy Club",
+        "email": "admin.aero@campus.edu",
+        "id": 21,
+        "isHashed": true,
+        "name": "Prof. Homi Bhabha",
+        "password": "c3027b41967088de",
+        "role": "ClubAdmin"
+    },
+    {
+        "email": "vc@campus.edu",
+        "id": 12,
+        "isHashed": true,
+        "name": "Vice Chancellor",
+        "password": "a6f1d7d053476c1",
+        "role": "SuperAdmin"
+    },
+    {
+        "clubName": "Robotics Society",
+        "email": "admin@gmail.com",
+        "id": 13,
+        "isHashed": true,
+        "name": "Prof. Pawar",
+        "password": "5426a455a4510374",
+        "role": "ClubAdmin"
+    },
+    {
+        "email": "super@gmail.com",
+        "id": 14,
+        "isHashed": true,
+        "name": "Prof. Shinde",
+        "password": "26fe75faa69b6e74",
+        "role": "SuperAdmin"
+    },
+    {
+        "email": "super@vit.edu",
+        "id": 15,
+        "isHashed": true,
+        "name": "Prof. Ranade",
+        "password": "26fe75faa69b6e74",
+        "role": "SuperAdmin"
+    },
+    {
+        "email": "dean@campus.edu",
+        "id": 16,
+        "isHashed": true,
+        "name": "Dean Academics",
+        "password": "8a4c58c159fa8038",
+        "role": "SuperAdmin"
+    },
+    {
+        "clubName": "Zypher",
+        "email": "admin.dance@campus.edu",
+        "id": 22,
+        "isHashed": true,
+        "name": "Shivani Bankar",
+        "password": "5426a455a4510374",
+        "role": "ClubAdmin"
     }
 ]

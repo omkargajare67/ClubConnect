@@ -109,6 +109,7 @@ void DataManager::saveUsers() {
     for (const auto& u : userRepo->getAll()) {
         nlohmann::json j = u->toJson();
         j["password"] = u->getPasswordHash();
+        j["isHashed"] = true;
         arr.push_back(j);
     }
     FileManager::getInstance().save("users.json", arr);

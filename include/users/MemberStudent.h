@@ -7,7 +7,7 @@
 class MemberStudent : public Student {
 public:
     MemberStudent(int id, const std::string& name, const std::string& email, const std::string& rawPassword,
-                  const std::string& rollNo, const std::string& department);
+                  const std::string& rollNo, const std::string& department, bool isHashed = false);
 
     virtual ~MemberStudent() override = default;
 

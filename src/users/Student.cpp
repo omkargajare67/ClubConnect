@@ -3,8 +3,8 @@
 
 // INHERITANCE: Calls User base constructor to initialize shared user fields.
 Student::Student(int id, const std::string& name, const std::string& email, const std::string& rawPassword,
-                 const std::string& rollNo, const std::string& department, const std::string& membershipType)
-    : User(id, name, email, rawPassword), rollNo(rollNo), department(department), membershipType(membershipType) {}
+                 const std::string& rollNo, const std::string& department, const std::string& membershipType, bool isHashed)
+    : User(id, name, email, rawPassword, isHashed), rollNo(rollNo), department(department), membershipType(membershipType) {}
 
 // ENCAPSULATION: Read-only accessors for private student attributes.
 std::string Student::getRollNo() const { return rollNo; }

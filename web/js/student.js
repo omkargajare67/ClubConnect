@@ -12,12 +12,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set navbar profile
     document.getElementById('navUserName').textContent = user.name;
     const badge = document.getElementById('navUserBadge');
+    const heroName = document.getElementById('heroStudentName');
+    if (heroName) heroName.textContent = user.name;
+    const heroBadge = document.getElementById('heroMembershipBadge');
+
     if (user.membership === 'member') {
         badge.className = 'badge badge-member ms-1';
         badge.textContent = 'Member (20% Off)';
+        if (heroBadge) {
+            heroBadge.className = 'badge bg-success mt-1';
+            heroBadge.textContent = 'Club Member (20% Off)';
+        }
     } else {
         badge.className = 'badge badge-guest ms-1';
         badge.textContent = 'Guest Student';
+        if (heroBadge) {
+            heroBadge.className = 'badge bg-secondary mt-1';
+            heroBadge.textContent = 'Guest Student';
+        }
     }
 
     document.getElementById('btnLogout').addEventListener('click', () => API.logout());
@@ -389,7 +401,52 @@ document.addEventListener('DOMContentLoaded', () => {
                         const enId = b.dataset.eid;
                         try {
                             const res = await API.getCertificate(enId);
-                            document.getElementById('certificateContent').textContent = res.certificate;
+
+                            // Populate visual certificate elements
+                            document.getElementById('certStudentName').textContent = res.studentName || user.name;
+                            document.getElementById('certEventTitle').textContent = `« ${res.eventName || 'Campus Club Event'} »`;
+                            document.getElementById('certClubName').textContent = res.clubName || 'Campus Club';
+                            document.getElementById('certEventDate').textContent = res.date ? `${res.date} (${res.time || ''})` : '2026';
+                            document.getElementById('certEventVenue').textContent = res.venue || 'Campus Center';
+                            document.getElementById('certVerificationId').textContent = res.certificateId || `CERT-CC-2026-${enId}`;
+
+                            // Customize award title based on event type
+                            const awardEl = document.getElementById('certAwardTitle');
+                            const descEl = document.getElementById('certBodyDesc');
+                            const t = res.eventType || 'Event';
+                            if (t === 'Workshop') {
+                                awardEl.textContent = 'Certificate of Technical Achievement';
+                                descEl.textContent = 'for outstanding active engagement, practical skills mastery, and successful completion of the technical workshop';
+                            } else if (t === 'Hackathon') {
+                                awardEl.textContent = 'Certificate of Excellence & Innovation';
+                                descEl.textContent = 'for exceptional engineering ingenuity, competitive problem-solving, and distinguished performance as a Hackathon finalist';
+                            } else if (t === 'Seminar') {
+                                awardEl.textContent = 'Certificate of Academic Attendance';
+                                descEl.textContent = 'for attending the distinguished research lecture and scholarly seminar session organized by the academic faculty';
+                            } else if (t === 'CulturalEvent') {
+                                awardEl.textContent = 'Certificate of Artistic Distinction';
+                                descEl.textContent = 'for vibrant creative performance, cultural expression, and active participation in the campus arts showcase';
+                            } else {
+                                awardEl.textContent = 'Certificate of Participation';
+                                descEl.textContent = 'for active participation and successful completion of the certified campus event program';
+                            }
+
+                            // Dynamic coordinator signature
+                            const sig1 = document.getElementById('certSigner1');
+                            const clubSub = document.getElementById('certClubSub');
+                            if (res.clubName) {
+                                if (res.clubName.includes('Coding')) {
+                                    sig1.textContent = 'Prof. Rajesh Nair';
+                                    clubSub.textContent = 'Coding Club Faculty Lead';
+                                } else if (res.clubName.includes('Robotics')) {
+                                    sig1.textContent = 'Prof. Sneha Kulkarni';
+                                    clubSub.textContent = 'Robotics Society Lead';
+                                } else {
+                                    sig1.textContent = 'Faculty Lead';
+                                    clubSub.textContent = `${res.clubName} Coordinator`;
+                                }
+                            }
+
                             myEnrollmentsModal.hide();
                             certificateModal.show();
                         } catch (err) {
@@ -405,6 +462,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    async function loadClubsFilter() {
+        try {
+            const clubs = await API.getClubs();
+            const select = document.getElementById('filterClub');
+            if (select && clubs && clubs.length > 0) {
+                const currentVal = select.value;
+                select.innerHTML = '<option value="">All Clubs</option>';
+                clubs.forEach(c => {
+                    const opt = document.createElement('option');
+                    opt.value = c.name;
+                    opt.textContent = c.name;
+                    select.appendChild(opt);
+                });
+                select.value = currentVal;
+            }
+        } catch (err) {
+            console.error('Failed to load clubs filter:', err);
+        }
+    }
+
     // Initial load
+    loadClubsFilter();
     loadEvents();
 });

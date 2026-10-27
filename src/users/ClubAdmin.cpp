@@ -3,8 +3,8 @@
 
 // INHERITANCE: Initializes base User properties alongside club assignment.
 ClubAdmin::ClubAdmin(int id, const std::string& name, const std::string& email, const std::string& rawPassword,
-                     const std::string& clubName)
-    : User(id, name, email, rawPassword), clubName(clubName) {}
+                     const std::string& clubName, bool isHashed)
+    : User(id, name, email, rawPassword, isHashed), clubName(clubName) {}
 
 // ENCAPSULATION: Const getter for club affiliation.
 std::string ClubAdmin::getClubName() const {

@@ -83,6 +83,13 @@ const API = {
         return data;
     },
 
+    async changePassword(oldPassword, newPassword) {
+        return this.request('/api/user/change-password', {
+            method: 'POST',
+            body: JSON.stringify({ oldPassword, newPassword })
+        });
+    },
+
     // 2. Events & Queries
     async getEvents(params = {}) {
         const query = new URLSearchParams();
@@ -148,6 +155,10 @@ const API = {
     },
 
     // 4. Attendance & Certificates
+    async getAttendees(eventId) {
+        return this.request(`/api/events/${eventId}/attendees`);
+    },
+
     async markAttendance(eventId, studentIds) {
         return this.request(`/api/events/${eventId}/attendance`, {
             method: 'POST',
@@ -162,5 +173,17 @@ const API = {
     // 5. Reports
     async getReports() {
         return this.request('/api/reports');
+    },
+
+    // 6. Clubs
+    async getClubs() {
+        return this.request('/api/clubs');
+    },
+
+    async createClub(clubData) {
+        return this.request('/api/clubs', {
+            method: 'POST',
+            body: JSON.stringify(clubData)
+        });
     }
 };

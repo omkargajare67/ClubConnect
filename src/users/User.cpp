@@ -3,8 +3,8 @@
 #include <sstream>
 
 // ENCAPSULATION: Constructor initializes identity and encapsulates hashed credential storage.
-User::User(int id, const std::string& name, const std::string& email, const std::string& rawPassword)
-    : id(id), name(name), email(email), passwordHash(hashPassword(rawPassword)) {}
+User::User(int id, const std::string& name, const std::string& email, const std::string& rawPassword, bool isHashed)
+    : id(id), name(name), email(email), passwordHash(isHashed ? rawPassword : hashPassword(rawPassword)) {}
 
 // ENCAPSULATION: Const getters provide read-only access.
 int User::getId() const { return id; }
@@ -15,6 +15,10 @@ std::string User::getPasswordHash() const { return passwordHash; }
 // ENCAPSULATION: Validates plain text against stored hash without returning the secret.
 bool User::checkPassword(const std::string& plainPassword) const {
     return passwordHash == hashPassword(plainPassword);
+}
+
+void User::setPassword(const std::string& newPlainPassword) {
+    passwordHash = hashPassword(newPlainPassword);
 }
 
 // Static utility: simple hashing for academic demonstration. Note: production systems use bcrypt/argon2.

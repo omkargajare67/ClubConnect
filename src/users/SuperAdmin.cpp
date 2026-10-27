@@ -2,8 +2,8 @@
 #include <iostream>
 
 // INHERITANCE: Initializes top-level administrative user.
-SuperAdmin::SuperAdmin(int id, const std::string& name, const std::string& email, const std::string& rawPassword)
-    : User(id, name, email, rawPassword) {}
+SuperAdmin::SuperAdmin(int id, const std::string& name, const std::string& email, const std::string& rawPassword, bool isHashed)
+    : User(id, name, email, rawPassword, isHashed) {}
 
 // POLYMORPHISM: SuperAdmin role string.
 std::string SuperAdmin::getRole() const {

@@ -15,12 +15,19 @@ When running locally, open your web browser at:
 | Role | Name | Email | Password | Details |
 |---|---|---|---|---|
 | **SuperAdmin** | Dr. Arvind Sharma | `superadmin@campus.edu` | `superpassword` | Global event approval / rejection, financial reports & analytics |
-| **ClubAdmin** | Prof. Rajesh Nair | `admin.coding@campus.edu` | `codingpass` | Manages "Coding Club" events, marks attendee attendance |
-| **ClubAdmin** | Prof. Sneha Kulkarni | `admin.robotics@campus.edu` | `robopass` | Manages "Robotics Society" events, marks attendee attendance |
+| **ClubAdmin** | Prof. Rajesh Nair | `admin.coding@campus.edu` | `codingpass` | Manages **"Coding Club"** events & attendance only |
+| **ClubAdmin** | Prof. Sneha Kulkarni | `admin.robotics@campus.edu` | `robopass` | Manages **"Robotics Society"** events & attendance only |
+| **ClubAdmin** | Prof. Vikram Sarabhai | `admin.ai@campus.edu` | `aipass` | Manages **"AI & Machine Learning Club"** events & attendance only |
+| **ClubAdmin** | Prof. Meera Sen | `admin.cultural@campus.edu` | `culturalpass` | Manages **"Cultural & Fine Arts Society"** events & attendance only |
+| **ClubAdmin** | Coach Sandeep Patil | `admin.sports@campus.edu` | `sportspass` | Manages **"Sports & Athletics Council"** events & attendance only |
+| **ClubAdmin** | Prof. Tanya Verma | `admin.design@campus.edu` | `designpass` | Manages **"Design & Media Guild"** events & attendance only |
+| **ClubAdmin** | Prof. Arjun Dave | `admin.cyber@campus.edu` | `cyberpass` | Manages **"Cyber Security & Ethical Hacking"** events & attendance only |
+| **ClubAdmin** | Prof. Homi Bhabha | `admin.aero@campus.edu` | `aeropass` | Manages **"Aerospace & Astronomy Club"** events & attendance only |
 | **MemberStudent** | Aarav Sharma | `aarav@campus.edu` | `pass123` | CS Dept &bull; **20% membership discount** applied automatically |
 | **MemberStudent** | Neha Gupta | `neha@campus.edu` | `pass123` | EC Dept &bull; **20% membership discount** applied automatically |
 | **GuestStudent** | Diya Patel | `diya@other.edu` | `pass123` | External Student &bull; Full fee (100%) |
 | **GuestStudent** | Kabir Mehta | `kabir@other.edu` | `pass123` | External Student &bull; Full fee (100%) |
+
 
 ---
 

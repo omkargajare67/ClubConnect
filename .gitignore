@@ -1,6 +1,7 @@
 # Binaries
 clubconnect
 clubconnect.exe
+*.exe
 *.o
 *.obj
 

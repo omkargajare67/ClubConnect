@@ -6,7 +6,7 @@
 // INHERITANCE: SuperAdmin has platform-wide authority to approve events and inspect global reports.
 class SuperAdmin : public User {
 public:
-    SuperAdmin(int id, const std::string& name, const std::string& email, const std::string& rawPassword);
+    SuperAdmin(int id, const std::string& name, const std::string& email, const std::string& rawPassword, bool isHashed = false);
 
     virtual ~SuperAdmin() override = default;
 

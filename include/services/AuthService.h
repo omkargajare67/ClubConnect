@@ -27,8 +27,16 @@ public:
     // Validates Bearer token and returns the authenticated User entity
     std::shared_ptr<User> validateToken(const std::string& token) const;
 
-    // Registers a new student and adds them to repository
+    // Registers a new user (Student, ClubAdmin, or SuperAdmin)
+    std::shared_ptr<User> registerUser(const nlohmann::json& userData);
     std::shared_ptr<User> registerStudent(const nlohmann::json& studentData);
+
+    // Changes password for an authenticated user
+    bool changePassword(int userId, const std::string& oldPassword, const std::string& newPassword);
+
+    // Input validation helpers
+    static bool isValidEmail(const std::string& email);
+    static bool isValidPassword(const std::string& password, std::string& errorReason);
 
     // Terminates an active session
     void logout(const std::string& token);

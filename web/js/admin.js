@@ -8,9 +8,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Set navbar
+    // Set navbar & hero banner
     document.getElementById('navAdminName').textContent = user.name;
     document.getElementById('navClubName').textContent = user.clubName || 'Club Admin';
+    const heroAdminName = document.getElementById('heroAdminName');
+    if (heroAdminName) heroAdminName.textContent = user.name;
+    const heroAdminClubTitle = document.getElementById('heroAdminClubTitle');
+    if (heroAdminClubTitle) heroAdminClubTitle.textContent = `${user.clubName || 'Club'} Dashboard`;
+    const heroAdminClubBadge = document.getElementById('heroAdminClubBadge');
+    if (heroAdminClubBadge) heroAdminClubBadge.textContent = user.clubName || 'Club Admin';
+    const attendanceScopeName = document.getElementById('attendanceClubScopeName');
+    if (attendanceScopeName) attendanceScopeName.textContent = user.clubName || 'Your Club';
     document.getElementById('btnLogout').addEventListener('click', () => API.logout());
 
     function showAlert(msg, isSuccess = false) {
@@ -122,52 +130,117 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. Attendance Handling
     let activeAttendanceEventId = null;
-    document.getElementById('attendanceEventSelect').addEventListener('change', async (e) => {
-        const evId = parseInt(e.target.value);
+
+    async function loadAttendeesForEvent(evId) {
         const container = document.getElementById('attendanceStudentListContainer');
         const box = document.getElementById('attendanceCheckboxes');
-        box.innerHTML = '';
+        box.innerHTML = '<div class="text-center text-muted py-3"><div class="spinner-border spinner-border-sm me-2" role="status"></div>Loading real enrolled students...</div>';
+        container.classList.remove('d-none');
+        activeAttendanceEventId = evId;
 
+        try {
+            const attendees = await API.getAttendees(evId);
+            box.innerHTML = '';
+
+            if (!attendees || attendees.length === 0) {
+                box.innerHTML = `
+                    <div class="text-center text-muted py-3">
+                        <i class="bi bi-person-x fs-3 d-block mb-1 text-secondary"></i>
+                        No students have enrolled in this event yet.
+                    </div>
+                `;
+                document.getElementById('btnSaveAttendance').disabled = true;
+                return;
+            }
+
+            document.getElementById('btnSaveAttendance').disabled = false;
+            attendees.forEach(att => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'form-check d-flex align-items-center justify-content-between py-2 border-bottom border-light-subtle';
+                
+                const leftDiv = document.createElement('div');
+                leftDiv.className = 'd-flex align-items-center';
+
+                const input = document.createElement('input');
+                input.className = 'form-check-input att-check me-2 mt-0';
+                input.type = 'checkbox';
+                input.value = att.studentId;
+                input.id = `att_${att.studentId}`;
+                input.checked = !!att.attended;
+
+                const label = document.createElement('label');
+                label.className = 'form-check-label';
+                label.htmlFor = `att_${att.studentId}`;
+                
+                const memBadge = att.membership === 'member'
+                    ? '<span class="badge bg-success-subtle text-success border border-success-subtle ms-1" style="font-size: 0.7rem;">Member</span>'
+                    : '<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle ms-1" style="font-size: 0.7rem;">Guest</span>';
+
+                label.innerHTML = `
+                    <strong>${att.studentName}</strong> ${memBadge}
+                    <div class="text-muted small">
+                        Roll: <code>${att.rollNo || 'N/A'}</code> &bull; Dept: ${att.department || '-'} &bull; ${att.studentEmail}
+                    </div>
+                `;
+
+                leftDiv.appendChild(input);
+                leftDiv.appendChild(label);
+
+                const statusSpan = document.createElement('span');
+                statusSpan.id = `status_badge_${att.studentId}`;
+                if (att.attended) {
+                    statusSpan.className = 'badge bg-success';
+                    statusSpan.innerHTML = '<i class="bi bi-check-lg me-1"></i>Present';
+                } else {
+                    statusSpan.className = 'badge bg-light text-muted border';
+                    statusSpan.textContent = 'Absent';
+                }
+
+                input.addEventListener('change', () => {
+                    if (input.checked) {
+                        statusSpan.className = 'badge bg-success';
+                        statusSpan.innerHTML = '<i class="bi bi-check-lg me-1"></i>Present';
+                    } else {
+                        statusSpan.className = 'badge bg-light text-muted border';
+                        statusSpan.textContent = 'Absent';
+                    }
+                });
+
+                itemDiv.appendChild(leftDiv);
+                itemDiv.appendChild(statusSpan);
+                box.appendChild(itemDiv);
+            });
+        } catch (err) {
+            box.innerHTML = `<div class="alert alert-danger py-2 mb-0 small">Failed to load enrolled students: ${err.message}</div>`;
+        }
+    }
+
+    document.getElementById('attendanceEventSelect').addEventListener('change', async (e) => {
+        const evId = parseInt(e.target.value);
         if (!evId) {
-            container.classList.add('d-none');
+            document.getElementById('attendanceStudentListContainer').classList.add('d-none');
             activeAttendanceEventId = null;
             return;
         }
-
-        activeAttendanceEventId = evId;
-        container.classList.remove('d-none');
-
-        // Fetch reports or enrollments to get students enrolled
-        try {
-            const reports = await API.getReports().catch(() => []);
-            // In ClubConnect, student IDs enrolled in the system are 4, 5, 6, 7
-            // Let's list enrolled candidates
-            box.innerHTML = `
-                <div class="form-check mb-2">
-                    <input class="form-check-input att-check" type="checkbox" value="4" id="att_4">
-                    <label class="form-check-label" for="att_4">Aarav Sharma (Student #4)</label>
-                </div>
-                <div class="form-check mb-2">
-                    <input class="form-check-input att-check" type="checkbox" value="5" id="att_5">
-                    <label class="form-check-label" for="att_5">Neha Gupta (Student #5)</label>
-                </div>
-                <div class="form-check mb-2">
-                    <input class="form-check-input att-check" type="checkbox" value="6" id="att_6">
-                    <label class="form-check-label" for="att_6">Diya Patel (Student #6)</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input att-check" type="checkbox" value="7" id="att_7">
-                    <label class="form-check-label" for="att_7">Kabir Mehta (Student #7)</label>
-                </div>
-            `;
-        } catch (err) {
-            box.innerHTML = `<span class="text-danger small">Error loading attendee list.</span>`;
-        }
+        await loadAttendeesForEvent(evId);
     });
 
     document.getElementById('btnSelectAllAttendees').addEventListener('click', () => {
-        document.querySelectorAll('.att-check').forEach(cb => cb.checked = true);
+        document.querySelectorAll('.att-check').forEach(cb => {
+            cb.checked = true;
+            cb.dispatchEvent(new Event('change'));
+        });
     });
+
+    const deselectBtn = document.getElementById('btnDeselectAllAttendees');
+    if (deselectBtn) {
+        deselectBtn.addEventListener('click', () => {
+            document.querySelectorAll('.att-check').forEach(cb => {
+                cb.checked = false;
+                cb.dispatchEvent(new Event('change'));
+            });
+        });
+    }
 
     document.getElementById('btnSaveAttendance').addEventListener('click', async () => {
         if (!activeAttendanceEventId) return;
@@ -176,14 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
             selected.push(parseInt(cb.value));
         });
 
-        if (selected.length === 0) {
-            alert('Please select at least one student to mark present.');
-            return;
-        }
-
         try {
             const res = await API.markAttendance(activeAttendanceEventId, selected);
-            showAlert(`Attendance recorded successfully for ${res.markedCount} student(s)!`, true);
+            showAlert(`Attendance recorded successfully for ${res.markedCount} present student(s)!`, true);
+            await loadAttendeesForEvent(activeAttendanceEventId);
         } catch (err) {
             showAlert('Failed to record attendance: ' + err.message);
         }

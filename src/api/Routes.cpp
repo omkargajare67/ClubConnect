@@ -46,7 +46,13 @@ static void handleRouteException(httplib::Response& res, const std::exception& e
         res.status = 402;
     } else {
         std::string msg = e.what();
-        res.status = (msg.find("not found") != std::string::npos) ? 404 : 400;
+        if (msg.find("Forbidden") != std::string::npos || msg.find("Access denied") != std::string::npos) {
+            res.status = 403;
+        } else if (msg.find("not found") != std::string::npos) {
+            res.status = 404;
+        } else {
+            res.status = 400;
+        }
     }
     res.set_content(nlohmann::json({{"error", e.what()}}).dump(), "application/json");
 }
@@ -70,15 +76,16 @@ void Routes::setup(httplib::Server& svr,
         return httplib::Server::HandlerResponse::Unhandled;
     });
 
-    // 1. POST /api/register
+    // 1. POST /api/register (Supports Student, ClubAdmin, SuperAdmin)
     svr.Post("/api/register", [&](const httplib::Request& req, httplib::Response& res) {
         try {
             auto body = nlohmann::json::parse(req.body);
-            auto user = authService.registerStudent(body);
-            std::string token = authService.login(user->getEmail(), body.value("password", "pass123"));
+            std::string rawPass = body.value("password", "");
+            auto user = authService.registerUser(body);
+            std::string token = authService.login(user->getEmail(), rawPass);
             dataManager.saveUsers();
             res.status = 201;
-            res.set_content(nlohmann::json({{"token", token}, {"role", user->getRole()}, {"name", user->getName()}, {"id", user->getId()}}).dump(), "application/json");
+            res.set_content(nlohmann::json({{"token", token}, {"role", user->getRole()}, {"name", user->getName()}, {"id", user->getId()}, {"email", user->getEmail()}}).dump(), "application/json");
         } catch (const std::exception& e) { handleRouteException(res, e); }
     });
 
@@ -93,6 +100,20 @@ void Routes::setup(httplib::Server& svr,
             res.status = 401;
             res.set_content(nlohmann::json({{"error", e.what()}}).dump(), "application/json");
         }
+    });
+
+    // 2b. POST /api/user/change-password
+    svr.Post("/api/user/change-password", [&](const httplib::Request& req, httplib::Response& res) {
+        std::shared_ptr<User> user;
+        if (!requireAuth(req, res, authService, "", user)) return;
+        try {
+            auto body = nlohmann::json::parse(req.body);
+            std::string oldPass = body.value("oldPassword", "");
+            std::string newPass = body.value("newPassword", "");
+            authService.changePassword(user->getId(), oldPass, newPass);
+            dataManager.saveUsers();
+            res.set_content(nlohmann::json({{"success", true}, {"message", "Password updated successfully."}}).dump(), "application/json");
+        } catch (const std::exception& e) { handleRouteException(res, e); }
     });
 
     // 3. GET /api/events (Approved only; search & sort)
@@ -221,7 +242,7 @@ void Routes::setup(httplib::Server& svr,
         res.set_content(rcpt->toJson().dump(), "application/json");
     });
 
-    // 13. POST /api/events/:id/attendance (ClubAdmin)
+    // 13. POST /api/events/:id/attendance (ClubAdmin: strictly scoped to authorized club)
     svr.Post(R"(/api/events/(\d+)/attendance)", [&](const httplib::Request& req, httplib::Response& res) {
         std::shared_ptr<User> user;
         if (!requireAuth(req, res, authService, "ClubAdmin", user)) return;
@@ -229,9 +250,32 @@ void Routes::setup(httplib::Server& svr,
             int eventId = std::stoi(req.matches[1]);
             auto body = nlohmann::json::parse(req.body);
             std::vector<int> studentIds = body.value("studentIds", std::vector<int>{});
-            int count = eventService.markAttendance(eventId, studentIds);
+            auto clubAdmin = std::dynamic_pointer_cast<ClubAdmin>(user);
+            std::string adminClub = clubAdmin ? clubAdmin->getClubName() : "";
+            int count = eventService.markAttendance(eventId, studentIds, adminClub);
             dataManager.saveEnrollments();
             res.set_content(nlohmann::json({{"success", true}, {"markedCount", count}}).dump(), "application/json");
+        } catch (const std::exception& e) { handleRouteException(res, e); }
+    });
+
+    // 13b. GET /api/events/:id/attendees (ClubAdmin or SuperAdmin: ClubAdmin strictly scoped to own club)
+    svr.Get(R"(/api/events/(\d+)/attendees)", [&](const httplib::Request& req, httplib::Response& res) {
+        std::shared_ptr<User> user;
+        std::string token = extractToken(req);
+        user = authService.validateToken(token);
+        if (!user || (user->getRole() != "ClubAdmin" && user->getRole() != "SuperAdmin")) {
+            res.status = 403;
+            res.set_content(nlohmann::json({{"error", "Forbidden: Access denied."}}).dump(), "application/json");
+            return;
+        }
+        try {
+            int eventId = std::stoi(req.matches[1]);
+            std::string adminClub = "";
+            if (user->getRole() == "ClubAdmin") {
+                auto clubAdmin = std::dynamic_pointer_cast<ClubAdmin>(user);
+                if (clubAdmin) adminClub = clubAdmin->getClubName();
+            }
+            res.set_content(eventService.getEventAttendees(eventId, adminClub).dump(), "application/json");
         } catch (const std::exception& e) { handleRouteException(res, e); }
     });
 
@@ -239,8 +283,7 @@ void Routes::setup(httplib::Server& svr,
     svr.Get(R"(/api/certificate/(\d+))", [&](const httplib::Request& req, httplib::Response& res) {
         try {
             int enId = std::stoi(req.matches[1]);
-            std::string certText = eventService.generateCertificate(enId);
-            res.set_content(nlohmann::json({{"certificate", certText}}).dump(), "application/json");
+            res.set_content(eventService.getCertificateDetails(enId).dump(), "application/json");
         } catch (const std::exception& e) { handleRouteException(res, e); }
     });
 
@@ -249,6 +292,27 @@ void Routes::setup(httplib::Server& svr,
         std::shared_ptr<User> user;
         if (!requireAuth(req, res, authService, "SuperAdmin", user)) return;
         res.set_content(eventService.getReports().dump(), "application/json");
+    });
+
+    // 16. GET /api/clubs (Public list of all registered campus clubs)
+    svr.Get("/api/clubs", [&](const httplib::Request&, httplib::Response& res) {
+        auto clubs = eventService.getAllClubs();
+        nlohmann::json arr = nlohmann::json::array();
+        for (const auto& c : clubs) arr.push_back(c->toJson());
+        res.set_content(arr.dump(), "application/json");
+    });
+
+    // 17. POST /api/clubs (SuperAdmin: Register new university club)
+    svr.Post("/api/clubs", [&](const httplib::Request& req, httplib::Response& res) {
+        std::shared_ptr<User> user;
+        if (!requireAuth(req, res, authService, "SuperAdmin", user)) return;
+        try {
+            auto body = nlohmann::json::parse(req.body);
+            auto newClub = eventService.createClub(body);
+            dataManager.saveClubs();
+            res.status = 201;
+            res.set_content(newClub->toJson().dump(), "application/json");
+        } catch (const std::exception& e) { handleRouteException(res, e); }
     });
 
     // Static Web Assets Mount

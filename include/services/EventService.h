@@ -44,14 +44,22 @@ public:
     // SuperAdmin approval / rejection
     bool setEventStatus(int eventId, const std::string& status);
 
-    // ClubAdmin marks attendance for student attendees
-    int markAttendance(int eventId, const std::vector<int>& studentIds);
+    // ClubAdmin marks attendance for student attendees (strictly scoped to authorized club)
+    int markAttendance(int eventId, const std::vector<int>& studentIds, const std::string& adminClubName = "");
+
+    // Enrolled attendees list for an event (strictly scoped to authorized club)
+    nlohmann::json getEventAttendees(int eventId, const std::string& adminClubName = "") const;
 
     // POLYMORPHISM & BUSINESS RULE: Issues certificate ONLY if student was marked present
     std::string generateCertificate(int enrollmentId) const;
+    nlohmann::json getCertificateDetails(int enrollmentId) const;
 
     // SuperAdmin reports: enrollment and revenue analytics per event
     nlohmann::json getReports() const;
+
+    // Clubs directory & creation
+    std::vector<std::shared_ptr<Club>> getAllClubs() const;
+    std::shared_ptr<Club> createClub(const nlohmann::json& clubData);
 };
 
 #endif // EVENT_SERVICE_H

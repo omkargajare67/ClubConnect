@@ -22,7 +22,7 @@ public:
     // POLYMORPHISM: Virtual destructor ensures proper cleanup of derived class resources.
     virtual ~User() = default;
 
-    User(int id, const std::string& name, const std::string& email, const std::string& rawPassword);
+    User(int id, const std::string& name, const std::string& email, const std::string& rawPassword, bool isHashed = false);
 
     // ENCAPSULATION: Read-only accessors maintaining immutability of identity fields.
     int getId() const;
@@ -32,6 +32,7 @@ public:
 
     // ENCAPSULATION: Secure password verification without revealing the raw hash.
     bool checkPassword(const std::string& plainPassword) const;
+    void setPassword(const std::string& newPlainPassword);
 
     // Helper static method for hashing passwords
     static std::string hashPassword(const std::string& plainPassword);

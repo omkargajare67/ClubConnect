@@ -8,8 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Set navbar
+    // Set navbar & hero
     document.getElementById('navSuperAdminName').textContent = user.name;
+    const heroSuperName = document.getElementById('heroSuperName');
+    if (heroSuperName) heroSuperName.textContent = user.name;
     document.getElementById('btnLogout').addEventListener('click', () => API.logout());
 
     function showAlert(msg, isSuccess = false) {
@@ -142,13 +144,71 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // 3. Load Clubs Directory
+    async function loadClubs() {
+        try {
+            const clubs = await API.getClubs();
+            const tbody = document.getElementById('clubsTableBody');
+            tbody.innerHTML = '';
+
+            if (!clubs || clubs.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center text-muted py-3">No clubs registered yet.</td></tr>`;
+                return;
+            }
+
+            clubs.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="font-monospace text-muted">#${c.clubId}</td>
+                    <td><strong>${c.name}</strong></td>
+                    <td class="small text-muted">${c.description}</td>
+                    <td><span class="badge bg-light text-dark border"><i class="bi bi-envelope me-1"></i>${c.leadAdminEmail || '-'}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        } catch (err) {
+            showAlert('Failed to load clubs: ' + err.message);
+        }
+    }
+
+    // Create New Club Form
+    const createClubModalEl = document.getElementById('createClubModal');
+    const createClubModal = createClubModalEl ? new bootstrap.Modal(createClubModalEl) : null;
+    document.getElementById('createClubForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const payload = {
+            name: document.getElementById('newClubName').value.trim(),
+            description: document.getElementById('newClubDesc').value.trim(),
+            leadAdminEmail: document.getElementById('newClubAdminEmail').value.trim()
+        };
+
+        const btn = document.getElementById('btnSubmitClub');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Creating...';
+
+        try {
+            await API.createClub(payload);
+            showAlert(`Club "${payload.name}" successfully established and registered!`, true);
+            document.getElementById('createClubForm').reset();
+            if (createClubModal) createClubModal.hide();
+            loadClubs();
+        } catch (err) {
+            showAlert('Failed to create club: ' + err.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = 'Create Club';
+        }
+    });
+
     function refreshAll() {
         loadPending();
         loadReports();
+        loadClubs();
     }
 
     document.getElementById('btnRefreshPending').addEventListener('click', loadPending);
     document.getElementById('btnRefreshReports').addEventListener('click', loadReports);
+    document.getElementById('btnRefreshClubs').addEventListener('click', loadClubs);
 
     // Initial load
     refreshAll();

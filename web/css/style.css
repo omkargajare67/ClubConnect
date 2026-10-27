@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
     --primary: #4f46e5;
@@ -120,6 +120,9 @@ body {
     #printableReceipt, #printableReceipt * {
         visibility: visible;
     }
+    #printableCertificate, #printableCertificate * {
+        visibility: visible;
+    }
     #printableReceipt {
         position: absolute;
         left: 0;
@@ -128,7 +131,296 @@ body {
         border: none;
         padding: 0;
     }
+    #printableCertificate {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+        background: #ffffff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
     .no-print {
         display: none !important;
     }
+}
+
+/* College Campus Background & Hero Elements */
+.campus-bg {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(30, 41, 59, 0.88)),
+                url('../images/campus_bg.jpg') center center / cover no-repeat fixed;
+    min-height: 100vh;
+}
+
+.dashboard-hero-banner {
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(15, 23, 42, 0.92) 100%),
+                url('../images/campus_bg.jpg') center center / cover no-repeat;
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 2.25rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.25);
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dashboard-hero-banner .hero-title {
+    font-weight: 800;
+    font-size: 2rem;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.dashboard-hero-banner .hero-subtitle {
+    color: #cbd5e1;
+    font-size: 1.05rem;
+    max-width: 650px;
+}
+
+/* Premium Glassmorphism Card */
+.glass-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25);
+}
+
+/* Password Strength & Validation Indicator */
+.strength-meter {
+    height: 6px;
+    border-radius: 4px;
+    background-color: #e2e8f0;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.strength-bar {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.req-checklist {
+    font-size: 0.78rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.req-item {
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s ease;
+}
+
+.req-item.valid {
+    color: #10b981;
+    font-weight: 500;
+}
+
+.req-item.valid i::before {
+    content: "\F26A"; /* bi-check-circle-fill */
+}
+
+.password-toggle-btn {
+    cursor: pointer;
+    background: #ffffff;
+    border-left: 0;
+}
+
+/* ========================================================
+   PRESTIGIOUS ACADEMIC CERTIFICATE STYLING
+   ======================================================== */
+.certificate-frame {
+    background: #fdfbf7;
+    background-image: radial-gradient(#f5efe6 1px, transparent 1px), radial-gradient(#f5efe6 1px, #fdfbf7 1px);
+    background-size: 24px 24px;
+    background-position: 0 0, 12px 12px;
+    border: 10px solid #0f172a;
+    border-radius: 8px;
+    padding: 8px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+    position: relative;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.certificate-inner {
+    border: 3px solid #d97706;
+    padding: 32px 28px 24px;
+    position: relative;
+    text-align: center;
+    background: #ffffff;
+}
+
+/* Ornate Corner Accents */
+.corner-ornament {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border: 3px solid #b45309;
+}
+.corner-tl { top: 6px; left: 6px; border-right: 0; border-bottom: 0; }
+.corner-tr { top: 6px; right: 6px; border-left: 0; border-bottom: 0; }
+.corner-bl { bottom: 6px; left: 6px; border-right: 0; border-top: 0; }
+.corner-br { bottom: 6px; right: 6px; border-left: 0; border-top: 0; }
+
+.cert-emblem {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e3a8a, #0f172a);
+    color: #f59e0b;
+    font-size: 1.7rem;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.25);
+    margin-bottom: 10px;
+}
+
+.cert-inst-title {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    color: #0f172a;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.cert-inst-sub {
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 16px;
+}
+
+.cert-award-title {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+    color: #92400e;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.cert-presentation {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.cert-recipient-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    font-size: 2.2rem;
+    color: #1e3a8a;
+    border-bottom: 2px solid #cbd5e1;
+    display: inline-block;
+    padding: 0 36px 6px;
+    margin-bottom: 14px;
+    letter-spacing: 0.5px;
+}
+
+.cert-body-text {
+    font-size: 0.95rem;
+    color: #334155;
+    max-width: 660px;
+    margin: 0 auto 12px;
+    line-height: 1.6;
+}
+
+.cert-event-title {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #0f172a;
+    margin-bottom: 14px;
+}
+
+.cert-badges {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.cert-footer-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px dashed #cbd5e1;
+}
+
+.cert-sig-block {
+    text-align: center;
+    width: 170px;
+}
+
+.cert-sig-script {
+    font-family: 'Playfair Display', 'Brush Script MT', cursive;
+    font-style: italic;
+    font-size: 1.35rem;
+    color: #1e3a8a;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.cert-sig-line {
+    border-top: 1.5px solid #475569;
+    padding-top: 6px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.cert-sig-sub {
+    font-size: 0.7rem;
+    color: #64748b;
+}
+
+.cert-seal {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fef3c7 20%, #f59e0b 60%, #b45309 100%);
+    border: 3px dashed #78350f;
+    box-shadow: 0 4px 10px rgba(180, 83, 9, 0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #451a03;
+    font-size: 0.55rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.1;
+    padding: 4px;
+}
+
+.cert-seal i {
+    font-size: 1.1rem;
+    margin-bottom: 2px;
+}
+
+.cert-meta-id {
+    font-size: 0.72rem;
+    color: #94a3b8;
+    margin-top: 12px;
 }

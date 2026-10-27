@@ -8,54 +8,67 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-light">
+<body class="campus-bg d-flex flex-column">
 
-<nav class="navbar navbar-expand-lg navbar-custom py-3">
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-3 border-bottom border-white-subtle">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="index.html">
-            <i class="bi bi-mortarboard-fill fs-3 text-primary me-2"></i>
-            <span class="brand-text fs-4">ClubConnect</span>
+            <i class="bi bi-mortarboard-fill fs-3 text-warning me-2"></i>
+            <span class="fw-bold fs-4 text-white">ClubConnect</span>
         </a>
-        <span class="badge bg-primary-subtle text-primary border border-primary-subtle">OOP C++17 Portal</span>
+        <span class="badge bg-white text-dark fw-semibold px-3 py-2 shadow-sm rounded-pill">
+            <i class="bi bi-buildings me-1 text-primary"></i> Campus Portal
+        </span>
     </div>
 </nav>
 
-<div class="container my-5">
-    <div class="row justify-content-center">
+<div class="container my-auto py-5">
+    <div class="row justify-content-center align-items-center">
         <!-- Auth Card -->
-        <div class="col-12 col-md-8 col-lg-5">
-            <div class="card shadow-sm border-0 rounded-4">
+        <div class="col-12 col-md-9 col-lg-6">
+            <div class="card glass-card border-0 rounded-4 shadow-lg">
                 <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <div class="d-inline-flex p-3 rounded-circle bg-primary bg-opacity-10 text-primary mb-2">
+                            <i class="bi bi-shield-lock-fill fs-2"></i>
+                        </div>
+                        <h4 class="fw-bold text-dark mb-1">Campus Portal Access</h4>
+                        <p class="text-muted small mb-0">Secure authentication for Students, Club Admins & SuperAdmin</p>
+                    </div>
+
                     <ul class="nav nav-pills nav-fill mb-4 p-1 bg-light rounded-3" id="authTabs" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active fw-medium" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-panel" type="button" role="tab">Login</button>
+                            <button class="nav-link active fw-semibold" id="login-tab" data-bs-toggle="pill" data-bs-target="#login-panel" type="button" role="tab">Sign In</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link fw-medium" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-panel" type="button" role="tab">Student Register</button>
+                            <button class="nav-link fw-semibold" id="register-tab" data-bs-toggle="pill" data-bs-target="#register-panel" type="button" role="tab">Register Account</button>
                         </li>
                     </ul>
 
-                    <div id="authAlert" class="alert d-none mb-3" role="alert"></div>
+                    <div id="authAlert" class="alert d-none mb-3 py-2 px-3 small" role="alert"></div>
 
                     <div class="tab-content" id="authTabsContent">
                         <!-- Login Form -->
                         <div class="tab-pane fade show active" id="login-panel" role="tabpanel">
-                            <form id="loginForm">
+                            <form id="loginForm" novalidate>
                                 <div class="mb-3">
-                                    <label class="form-label text-muted small fw-semibold">Email Address</label>
+                                    <label class="form-label text-muted small fw-semibold" for="loginEmail">Email Address</label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-white"><i class="bi bi-envelope"></i></span>
-                                        <input type="email" class="form-control" id="loginEmail" required placeholder="user@campus.edu">
+                                        <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-envelope"></i></span>
+                                        <input type="email" class="form-control border-start-0" id="loginEmail" required placeholder="user@campus.edu">
                                     </div>
                                 </div>
                                 <div class="mb-4">
-                                    <label class="form-label text-muted small fw-semibold">Password</label>
+                                    <label class="form-label text-muted small fw-semibold" for="loginPassword">Password</label>
                                     <div class="input-group">
-                                        <span class="input-group-text bg-white"><i class="bi bi-lock"></i></span>
-                                        <input type="password" class="form-control" id="loginPassword" required placeholder="••••••••">
+                                        <span class="input-group-text bg-white border-end-0 text-muted"><i class="bi bi-lock"></i></span>
+                                        <input type="password" class="form-control border-start-0 border-end-0" id="loginPassword" required placeholder="••••••••">
+                                        <button class="btn btn-outline-secondary border-start-0 password-toggle-btn" type="button" id="toggleLoginPass">
+                                            <i class="bi bi-eye" id="toggleLoginPassIcon"></i>
+                                        </button>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3" id="btnLogin">
+                                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold rounded-3 shadow-sm" id="btnLogin">
                                     <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
                                 </button>
                             </form>
@@ -63,98 +76,141 @@
 
                         <!-- Register Form -->
                         <div class="tab-pane fade" id="register-panel" role="tabpanel">
-                            <form id="registerForm">
-                                <div class="mb-2">
-                                    <label class="form-label text-muted small fw-semibold">Full Name</label>
-                                    <input type="text" class="form-control" id="regName" required placeholder="Rohan Sharma">
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label text-muted small fw-semibold">Email Address</label>
-                                    <input type="email" class="form-control" id="regEmail" required placeholder="rohan@campus.edu">
-                                </div>
-                                <div class="mb-2">
-                                    <label class="form-label text-muted small fw-semibold">Password</label>
-                                    <input type="password" class="form-control" id="regPassword" required placeholder="••••••••">
-                                </div>
-                                <div class="row g-2 mb-2">
-                                    <div class="col-6">
-                                        <label class="form-label text-muted small fw-semibold">Roll Number</label>
-                                        <input type="text" class="form-control" id="regRollNo" required placeholder="CS23B099">
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="form-label text-muted small fw-semibold">Department</label>
-                                        <input type="text" class="form-control" id="regDept" required placeholder="Computer Science">
+                            <form id="registerForm" novalidate>
+                                <!-- Role Selector -->
+                                <div class="mb-3">
+                                    <label class="form-label text-muted small fw-semibold">Account Role</label>
+                                    <div class="btn-group w-100" role="group" id="regRoleGroup">
+                                        <input type="radio" class="btn-check" name="regRole" id="roleStudent" value="Student" checked>
+                                        <label class="btn btn-outline-primary btn-sm fw-medium py-2" for="roleStudent">
+                                            <i class="bi bi-person-fill me-1"></i> Student
+                                        </label>
+
+                                        <input type="radio" class="btn-check" name="regRole" id="roleClubAdmin" value="ClubAdmin">
+                                        <label class="btn btn-outline-primary btn-sm fw-medium py-2" for="roleClubAdmin">
+                                            <i class="bi bi-person-badge-fill me-1"></i> Club Admin
+                                        </label>
+
+                                        <input type="radio" class="btn-check" name="regRole" id="roleSuperAdmin" value="SuperAdmin">
+                                        <label class="btn btn-outline-primary btn-sm fw-medium py-2" for="roleSuperAdmin">
+                                            <i class="bi bi-shield-lock-fill me-1"></i> SuperAdmin
+                                        </label>
                                     </div>
                                 </div>
-                                <div class="mb-4">
-                                    <label class="form-label text-muted small fw-semibold">Membership Type</label>
-                                    <select class="form-select" id="regMembership">
-                                        <option value="member">Club Member (20% fee discount)</option>
-                                        <option value="guest" selected>Guest Student (Full fee)</option>
-                                    </select>
+
+                                <div class="mb-2">
+                                    <label class="form-label text-muted small fw-semibold" for="regName">Full Name</label>
+                                    <input type="text" class="form-control" id="regName" required placeholder="e.g. Prof. Rajesh Nair / Aarav Sharma" minlength="2">
                                 </div>
-                                <button type="submit" class="btn btn-success w-100 py-2 fw-semibold rounded-3" id="btnRegister">
-                                    <i class="bi bi-person-plus-fill me-1"></i> Create Student Account
+                                <div class="mb-2">
+                                    <label class="form-label text-muted small fw-semibold" for="regEmail">Email Address</label>
+                                    <input type="email" class="form-control" id="regEmail" required placeholder="e.g. user@campus.edu">
+                                </div>
+                                <div class="mb-2">
+                                    <label class="form-label text-muted small fw-semibold" for="regPassword">Password</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control border-end-0" id="regPassword" required placeholder="Create strong password">
+                                        <button class="btn btn-outline-secondary border-start-0 password-toggle-btn" type="button" id="toggleRegPass">
+                                            <i class="bi bi-eye" id="toggleRegPassIcon"></i>
+                                        </button>
+                                    </div>
+                                    <!-- Password Strength Meter -->
+                                    <div class="strength-meter">
+                                        <div class="strength-bar" id="strengthBar"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mt-1">
+                                        <span class="small text-muted" style="font-size: 0.75rem;">Password Strength:</span>
+                                        <span class="small fw-semibold" id="strengthLabel" style="font-size: 0.75rem; color: #94a3b8;">Enter password</span>
+                                    </div>
+
+                                    <!-- Requirement Checklist -->
+                                    <div class="req-checklist">
+                                        <div class="req-item" id="reqLen"><i class="bi bi-circle me-1"></i> At least 8 chars</div>
+                                        <div class="req-item" id="reqUpper"><i class="bi bi-circle me-1"></i> Uppercase (A-Z)</div>
+                                        <div class="req-item" id="reqLower"><i class="bi bi-circle me-1"></i> Lowercase (a-z)</div>
+                                        <div class="req-item" id="reqDigit"><i class="bi bi-circle me-1"></i> Number (0-9)</div>
+                                        <div class="req-item" id="reqSpecial"><i class="bi bi-circle me-1"></i> Special (!@#$%)</div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-2">
+                                    <label class="form-label text-muted small fw-semibold" for="regConfirmPassword">Confirm Password</label>
+                                    <input type="password" class="form-control" id="regConfirmPassword" required placeholder="Re-enter password">
+                                    <div id="matchNotice" class="small text-danger d-none mt-1" style="font-size: 0.75rem;">Passwords do not match.</div>
+                                </div>
+
+                                <!-- Student-Specific Fields -->
+                                <div id="fieldsStudent">
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-6">
+                                            <label class="form-label text-muted small fw-semibold" for="regRollNo">Roll Number</label>
+                                            <input type="text" class="form-control" id="regRollNo" placeholder="e.g. CS23B099">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="form-label text-muted small fw-semibold" for="regDept">Department</label>
+                                            <input type="text" class="form-control" id="regDept" placeholder="e.g. Computer Science">
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label text-muted small fw-semibold" for="regMembership">Membership Tier</label>
+                                        <select class="form-select" id="regMembership">
+                                            <option value="member">Club Member (20% fee discount)</option>
+                                            <option value="guest" selected>Guest Student (Full fee)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- ClubAdmin-Specific Fields -->
+                                <div id="fieldsClubAdmin" class="d-none">
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted small fw-semibold" for="regClubName">Managing Club Name</label>
+                                        <input type="text" class="form-control" id="regClubName" placeholder="e.g. Coding Club / Robotics Society / Music Guild" list="existingClubsList">
+                                        <datalist id="existingClubsList">
+                                            <option value="Coding Club">
+                                            <option value="Robotics Society">
+                                            <option value="AI & Machine Learning Club">
+                                            <option value="Cultural & Fine Arts Society">
+                                            <option value="Sports & Athletics Council">
+                                            <option value="Design & Media Guild">
+                                            <option value="Cyber Security & Ethical Hacking">
+                                            <option value="Aerospace & Astronomy Club">
+                                        </datalist>
+                                        <div class="form-text small">Enter your officially recognized student organization or club.</div>
+                                    </div>
+                                </div>
+
+                                <!-- SuperAdmin-Specific Fields -->
+                                <div id="fieldsSuperAdmin" class="d-none">
+                                    <div class="mb-3 p-3 bg-danger bg-opacity-10 rounded-3 border border-danger-subtle">
+                                        <label class="form-label text-danger small fw-semibold mb-1" for="regAdminKey">
+                                            <i class="bi bi-key-fill me-1"></i> Executive Admin Security Passcode
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control border-danger fw-semibold" id="regAdminKey" placeholder="SUPERADMIN2026" value="SUPERADMIN2026">
+                                            <button class="btn btn-outline-danger btn-sm" type="button" onclick="document.getElementById('regAdminKey').value = 'SUPERADMIN2026'">
+                                                <i class="bi bi-check2-circle me-1"></i> Reset Key
+                                            </button>
+                                        </div>
+                                        <div class="form-text small text-danger mt-1">
+                                            <i class="bi bi-info-circle me-1"></i> Master passcode is pre-filled: <code>SUPERADMIN2026</code> (required by server to authorize SuperAdmin role).
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-success w-100 py-2 fw-semibold rounded-3 shadow-sm mt-3" id="btnRegister">
+                                    <i class="bi bi-person-check-fill me-1"></i> Create Account
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Quick Demo Credentials Box -->
-            <div class="card mt-4 border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-                    <h6 class="fw-bold mb-3 text-secondary d-flex align-items-center">
-                        <i class="bi bi-key-fill text-warning me-2"></i> Demo Quick Login Credentials
-                    </h6>
-                    <div class="table-responsive">
-                        <table class="table table-sm table-hover align-middle mb-0" style="font-size: 0.85rem;">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Role</th>
-                                    <th>Email</th>
-                                    <th>Password</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><span class="badge bg-primary">Member</span></td>
-                                    <td>aarav@campus.edu</td>
-                                    <td>pass123</td>
-                                    <td><button class="btn btn-outline-primary btn-sm py-0 fill-cred" data-email="aarav@campus.edu" data-pass="pass123">Fill</button></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge bg-secondary">Guest</span></td>
-                                    <td>diya@other.edu</td>
-                                    <td>pass123</td>
-                                    <td><button class="btn btn-outline-primary btn-sm py-0 fill-cred" data-email="diya@other.edu" data-pass="pass123">Fill</button></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge bg-info text-dark">ClubAdmin</span></td>
-                                    <td>admin.coding@campus.edu</td>
-                                    <td>codingpass</td>
-                                    <td><button class="btn btn-outline-primary btn-sm py-0 fill-cred" data-email="admin.coding@campus.edu" data-pass="codingpass">Fill</button></td>
-                                </tr>
-                                <tr>
-                                    <td><span class="badge bg-danger">SuperAdmin</span></td>
-                                    <td>superadmin@campus.edu</td>
-                                    <td>superpassword</td>
-                                    <td><button class="btn btn-outline-primary btn-sm py-0 fill-cred" data-email="superadmin@campus.edu" data-pass="superpassword">Fill</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
 
-<footer class="mt-auto py-3 text-center text-muted small bg-white border-top">
-    ClubConnect &copy; 2026 - Campus Club Events & Enrollment Portal (C++17 OOP Project)
+<footer class="mt-auto py-3 text-center text-white-50 small bg-black bg-opacity-40 border-top border-white-subtle">
+    ClubConnect &copy; 2026 - Campus Club Events & Enrollment Portal (C++17 OOP Platform)
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -168,63 +224,238 @@
         else if (existingUser.role === 'SuperAdmin') window.location.href = 'superadmin.html';
     }
 
-    // Quick fill demo buttons
-    document.querySelectorAll('.fill-cred').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('loginEmail').value = btn.dataset.email;
-            document.getElementById('loginPassword').value = btn.dataset.pass;
-            const loginTab = new bootstrap.Tab(document.getElementById('login-tab'));
-            loginTab.show();
-        });
-    });
-
     function showAlert(msg, isSuccess = false) {
         const el = document.getElementById('authAlert');
-        el.className = `alert alert-${isSuccess ? 'success' : 'danger'} mb-3`;
+        el.className = `alert alert-${isSuccess ? 'success' : 'danger'} mb-3 py-2 px-3 small`;
         el.textContent = msg;
         el.classList.remove('d-none');
     }
 
+    // Role switcher dynamic fields
+    const roleRadios = document.querySelectorAll('input[name="regRole"]');
+    const fieldsStudent = document.getElementById('fieldsStudent');
+    const fieldsClubAdmin = document.getElementById('fieldsClubAdmin');
+    const fieldsSuperAdmin = document.getElementById('fieldsSuperAdmin');
+
+    roleRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            const r = radio.value;
+            fieldsStudent.classList.toggle('d-none', r !== 'Student');
+            fieldsClubAdmin.classList.toggle('d-none', r !== 'ClubAdmin');
+            fieldsSuperAdmin.classList.toggle('d-none', r !== 'SuperAdmin');
+        });
+    });
+
+    // Password Visibility Toggles
+    function setupPasswordToggle(btnId, inputId, iconId) {
+        const btn = document.getElementById(btnId);
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        btn.addEventListener('click', () => {
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+            icon.className = isPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+    }
+    setupPasswordToggle('toggleLoginPass', 'loginPassword', 'toggleLoginPassIcon');
+    setupPasswordToggle('toggleRegPass', 'regPassword', 'toggleRegPassIcon');
+
+    // Real-Time Password Strength Validation
+    const regPasswordInput = document.getElementById('regPassword');
+    const regConfirmInput = document.getElementById('regConfirmPassword');
+    const strengthBar = document.getElementById('strengthBar');
+    const strengthLabel = document.getElementById('strengthLabel');
+    const matchNotice = document.getElementById('matchNotice');
+
+    function checkPasswordComplexity(pass) {
+        const hasLen = pass.length >= 8;
+        const hasUpper = /[A-Z]/.test(pass);
+        const hasLower = /[a-z]/.test(pass);
+        const hasDigit = /[0-9]/.test(pass);
+        const hasSpecial = /[^A-Za-z0-9]/.test(pass);
+
+        const updateReq = (id, valid) => {
+            const el = document.getElementById(id);
+            if (valid) {
+                el.className = 'req-item valid';
+                el.querySelector('i').className = 'bi bi-check-circle-fill me-1';
+            } else {
+                el.className = 'req-item';
+                el.querySelector('i').className = 'bi bi-circle me-1';
+            }
+        };
+
+        updateReq('reqLen', hasLen);
+        updateReq('reqUpper', hasUpper);
+        updateReq('reqLower', hasLower);
+        updateReq('reqDigit', hasDigit);
+        updateReq('reqSpecial', hasSpecial);
+
+        let score = 0;
+        if (hasLen) score++;
+        if (hasUpper) score++;
+        if (hasLower) score++;
+        if (hasDigit) score++;
+        if (hasSpecial) score++;
+
+        if (pass.length === 0) {
+            strengthBar.style.width = '0%';
+            strengthBar.style.backgroundColor = '#e2e8f0';
+            strengthLabel.textContent = 'Enter password';
+            strengthLabel.style.color = '#94a3b8';
+        } else if (score <= 2) {
+            strengthBar.style.width = '30%';
+            strengthBar.style.backgroundColor = '#ef4444';
+            strengthLabel.textContent = 'Weak';
+            strengthLabel.style.color = '#ef4444';
+        } else if (score <= 4) {
+            strengthBar.style.width = '70%';
+            strengthBar.style.backgroundColor = '#f59e0b';
+            strengthLabel.textContent = 'Moderate';
+            strengthLabel.style.color = '#f59e0b';
+        } else {
+            strengthBar.style.width = '100%';
+            strengthBar.style.backgroundColor = '#10b981';
+            strengthLabel.textContent = 'Strong';
+            strengthLabel.style.color = '#10b981';
+        }
+
+        return (hasLen && hasUpper && hasLower && hasDigit && hasSpecial);
+    }
+
+    regPasswordInput.addEventListener('input', () => {
+        checkPasswordComplexity(regPasswordInput.value);
+        if (regConfirmInput.value) {
+            matchNotice.classList.toggle('d-none', regPasswordInput.value === regConfirmInput.value);
+        }
+    });
+
+    regConfirmInput.addEventListener('input', () => {
+        matchNotice.classList.toggle('d-none', regPasswordInput.value === regConfirmInput.value);
+    });
+
     // Login Submission
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
+        const email = document.getElementById('loginEmail').value.trim();
         const pass = document.getElementById('loginPassword').value;
+
+        if (!email || !pass) {
+            showAlert('Please enter both email and password.');
+            return;
+        }
+
+        const btn = document.getElementById('btnLogin');
+        const origText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Signing in...';
+
         try {
             const data = await API.login(email, pass);
-            showAlert('Login successful! Redirecting...', true);
+            showAlert('Authentication verified! Redirecting...', true);
             setTimeout(() => {
                 if (data.role === 'Student') window.location.href = 'events.html';
                 else if (data.role === 'ClubAdmin') window.location.href = 'admin.html';
                 else if (data.role === 'SuperAdmin') window.location.href = 'superadmin.html';
                 else window.location.href = 'events.html';
-            }, 600);
+            }, 500);
         } catch (err) {
-            showAlert(err.message || 'Login failed. Please check credentials.');
+            showAlert(err.message || 'Login failed. Please verify registered credentials.');
+            btn.disabled = false;
+            btn.innerHTML = origText;
         }
     });
 
     // Register Submission
     document.getElementById('registerForm').addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        const role = document.querySelector('input[name="regRole"]:checked').value;
+        const name = document.getElementById('regName').value.trim();
+        const email = document.getElementById('regEmail').value.trim();
+        const pass = document.getElementById('regPassword').value;
+        const confirmPass = document.getElementById('regConfirmPassword').value;
+
+        if (!name || name.length < 2) {
+            showAlert('Full name must be at least 2 characters.');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email)) {
+            showAlert('Please enter a valid email address (e.g. name@campus.edu).');
+            return;
+        }
+
+        const isStrong = checkPasswordComplexity(pass);
+        if (!isStrong) {
+            showAlert('Password does not meet the security requirements (must be 8+ chars with uppercase, lowercase, number, and special char).');
+            return;
+        }
+
+        if (pass !== confirmPass) {
+            showAlert('Passwords do not match. Please re-enter.');
+            matchNotice.classList.remove('d-none');
+            return;
+        }
+
         const payload = {
-            name: document.getElementById('regName').value,
-            email: document.getElementById('regEmail').value,
-            password: document.getElementById('regPassword').value,
-            rollNo: document.getElementById('regRollNo').value,
-            department: document.getElementById('regDept').value,
-            membership: document.getElementById('regMembership').value
+            role,
+            name,
+            email,
+            password: pass
         };
+
+        if (role === 'Student') {
+            const rollNo = document.getElementById('regRollNo').value.trim();
+            const department = document.getElementById('regDept').value.trim();
+            const membership = document.getElementById('regMembership').value;
+
+            if (!rollNo) {
+                showAlert('Roll number is required.');
+                return;
+            }
+            if (!department) {
+                showAlert('Department is required.');
+                return;
+            }
+            payload.rollNo = rollNo;
+            payload.department = department;
+            payload.membership = membership;
+        } else if (role === 'ClubAdmin') {
+            const clubName = document.getElementById('regClubName').value.trim();
+            if (!clubName) {
+                showAlert('Club name is required.');
+                return;
+            }
+            payload.clubName = clubName;
+        } else if (role === 'SuperAdmin') {
+            const adminKey = document.getElementById('regAdminKey').value.trim();
+            if (!adminKey) {
+                showAlert('SuperAdmin security passcode is required.');
+                return;
+            }
+            payload.adminKey = adminKey;
+        }
+
+        const btn = document.getElementById('btnRegister');
+        const origText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Creating Account...';
 
         try {
             const data = await API.register(payload);
-            showAlert('Registration successful! Redirecting to events portal...', true);
+            showAlert(`${role} account created successfully! Redirecting...`, true);
             setTimeout(() => {
-                window.location.href = 'events.html';
-            }, 800);
+                if (data.role === 'Student') window.location.href = 'events.html';
+                else if (data.role === 'ClubAdmin') window.location.href = 'admin.html';
+                else if (data.role === 'SuperAdmin') window.location.href = 'superadmin.html';
+                else window.location.href = 'events.html';
+            }, 700);
         } catch (err) {
             showAlert(err.message || 'Registration failed.');
+            btn.disabled = false;
+            btn.innerHTML = origText;
         }
     });
 </script>
